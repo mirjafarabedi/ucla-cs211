@@ -1,0 +1,6 @@
+# my img and vdi files
+*.img
+*.vdi
+
+# Mac folder
+.DS_Store
