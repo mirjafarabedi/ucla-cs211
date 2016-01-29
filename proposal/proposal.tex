@@ -25,9 +25,34 @@ Jeffrey Chen
 }
 
 \maketitle
+\section{literature survey}
 
+\subsection{What is OpenWrt}
+OpenWrt \cite{fainelli2008openwrt, kim2014implementation} is a Busybox/Linux based embedded platform which is developed following GPL license. It minimizes its own functions so that it fits for lots of memory constrained devices. Specifically, it builds the appropriate toolchain for devices, compiles appropriate kernel with patched and options, as well as provides software as IPKG packages.
 
-\section{Design and implementation roadmap}
+\subsection{OpenWrt System Structure}
+OpenWrt System Structure covers four aspects: directory structure, packages and external repositories, toolchain, and software architecture.
+
+There are four key directories in the base: tools, toolchain, package and target.Tools and toolchain refer to common tools which will be used to build the firmware image, the compiler, and the C library.
+
+In an OpenWrt, almost all the packages are .ipk files. Users can choose what packages to install and what packages to uninstall based on their specific needs. Packages are either part of the main trunk or maintained out of the main trunk. For the second case, packages can be maintained by the package feeds system.
+
+To compile the program for a particular architecture, the toolchain will be automatically created by the OpenWrt system during the cross-compilation process. That will simplify developers tasks. However, when there are needs to create toolchain by hand, OpenWrt also provides an easy way to configure the arguments.
+
+The following figure \ref{OpenWrt:stack} shows the software stack of OpenWrt. We can see that the common embedded Linux tools such as uClibc, busybox, shell interpreter are used by OpenWrt, so there is no need to learn some complex things.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.4\textwidth]{stack.png}
+	\caption{the software stack of OpenWrt}
+	\label{OpenWrt:stack}
+\end{figure}
+
+\subsection{How to Develop With OpenWrt}
+
+\subsection{Web-based Access to OpenWrt}
+
+\section{Design and implementation \\ roadmap}
 
 This section covers the functional components of the application, which are organized into three major categories.
 
