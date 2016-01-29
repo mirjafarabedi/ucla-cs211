@@ -50,7 +50,10 @@ The following figure \ref{OpenWrt:stack} shows the software stack of OpenWrt. We
 
 \subsection{How to Develop With OpenWrt}
 
+It is easy to port software to OpenWrt. Various fetching methods such as GIT, Subversion, CVS, HTTP, local source can be used to download package source. In a typical package directory, there should always be a \verb|package/<name>/Makefile|. After run ``make menuconfig'', the new package will automatically show in the menu; and after run ``make'', the new package will automatically be built.
+
 \subsection{Web-based Access to OpenWrt}
+In the OpenWrt system, some important features are provided: a built-in web server with CGI support, an SSH server and a package management tool.
 
 \section{Design and implementation \\ roadmap}
 
