@@ -53,7 +53,11 @@ The following figure \ref{OpenWrt:stack} shows the software stack of OpenWrt. We
 It is easy to port software to OpenWrt. Various fetching methods such as GIT, Subversion, CVS, HTTP, local source can be used to download package source. In a typical package directory, there should always be a \verb|package/<name>/Makefile|. After run ``make menuconfig'', the new package will automatically show in the menu; and after run ``make'', the new package will automatically be built.
 
 \subsection{Web-based Access to OpenWrt}
-In the OpenWrt system, some important features are provided: a built-in web server with CGI support, an SSH server and a package management tool.
+In the OpenWrt system, some important features are provided: a built-in web server with CGI support, an SSH server and a package management tool. We can make use of these existing tools to build our own web-based access application.
+
+Apart from the basic tools, OpenWrt also supports LuCI (\url {https://wiki.openwrt.org/doc/techref/luci}), which is really a nice tool to remotely configure the OpenWrt system. Specifically, it provides status visualization functions, system administration functions and network configurations. We can build the web-based access application functions based on their work.
+
+Another useful reference is the netgear (\url{http://support.netgear.com/for_home/default.aspx}) mobile application, which designs nice UIs that we can borrow ideas from. We need also to design the web-based access application UIs based on their work.
 
 \section{Design and implementation \\ roadmap}
 
@@ -86,7 +90,7 @@ A rough timeline for the project is given in table \ref{table:timeline}
 Week No. & Task \\ \hline
 5, 6 (first half) & Implement status/statistics visualization module \\ \hline
 6 (second half), 7 & Implement network configuration module \\ \hline
-8, 9 (first half) & Implement system configuration module \\ \hline
+8, 9 (first half) & Implement system administration module \\ \hline
 9 (second half), 10 & Prepare final report and presentation \\
 \hline\end{tabular}
 \end{table}
