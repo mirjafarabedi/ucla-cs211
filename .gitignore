@@ -4,3 +4,5 @@
 
 # Mac folder
 .DS_Store
+
+/vm/*

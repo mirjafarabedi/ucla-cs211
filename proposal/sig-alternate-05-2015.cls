@@ -137,7 +137,7 @@
 \DeclareOption{12pt}{\ClassError{sig-alternate}{The `12pt' option is
     not allowed}{sig-alternate now exists in 9pt and 10pt versions only}}
 
-\ExecuteOptions{9pt}
+\ExecuteOptions{10pt}
 \ProcessOptions
 
 
