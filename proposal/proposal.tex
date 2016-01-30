@@ -48,9 +48,9 @@
 	There are four key directories in the base: tools, toolchain, package and target.
 	Tools and toolchain refer to common tools which will be used to build the firmware image, the compiler, and the C library.
 	
-	In an OpenWRT, almost all the packages are .ipk files. Users can choose what packages to install and what packages to uninstall based on their specific needs. Packages are either part of the main trunk or maintained out of the main trunk. For the second case, packages can be maintained by the package feeds system.
+	In OpenWRT, almost all the packages are .ipk files. Users can choose what packages to install and what packages to uninstall based on their specific needs. Packages are either part of the main trunk or maintained out of the main trunk. For the second case, packages can be maintained by the package feeds system.
 	
-	To compile the program for a particular architecture, the toolchain will be automatically created by the OpenWRT system during the cross-compilation process. That will simplify developers tasks. However, when there are needs to create toolchain by hand, OpenWRT also provides an easy way to configure the arguments.
+	To compile the program for a particular architecture, the OpenWRT system will automatically create the toolchain during the cross-compilation process, simplifying the development tasks. However, if the toolchain needs to be created manually, OpenWRT also provides an easy way to configure the arguments.
 	
 	Figure \ref{OpenWRT:stack} shows the software stack of OpenWRT. We can see that the common embedded Linux tools such as uClibc, busybox, shell interpreter are used by OpenWRT.
 	
@@ -74,7 +74,7 @@
 	
 	\section{Design and implementation \\ roadmap}
 	
-	Based on the functional modules of LuCI, we design, the functional components of the Android application, which are organized into three major categories.
+	Based on the functional modules of LuCI, we will design the functional components of the Android application, which are organized into three major categories:
 	
 	\begin{itemize}
 		
@@ -82,10 +82,10 @@
 		\textbf{Network configuration} covers common functionalities in configuration tools that often come with commercial APs. These configurations include, but may not be limited to, managing network interfaces, DHCP and DNS settings, static routes, and firewall.
 		
 		\item
-		\textbf{System configuration} provides interface to customize the OpenWRT box. Common adminstration functions include: system and user configuration (setting device adminstrator password, creating system backup image and restoring system from backup image, generating user SSH keys, etc), software management (installing and configuring software packages) and task management (managing scheduled task and startup task). If the time allows, an in-application command line tool can be implemented for advanced users to execute console commands from the application to further customize the OpenWRT box.
+		\textbf{System configuration} provides an interface to customize the OpenWRT box. Common adminstration functions include: system and user configuration (setting device adminstrator password, creating system backup image and restoring system from backup image, generating user SSH keys, etc), software management (installing and configuring software packages) and task management (managing scheduled task and startup task). If the time allows, an in-application command line tool can be implemented for advanced users to execute console commands from the application to further customize the OpenWRT box.
 		
 		\item
-		\textbf{Status/Statistics visualization} offers a mobile-phone friendly view of the system status (firmware and kernel version, uptime, current time; CPU and memory usage, currently running processes, system and kernel log) and network-related status (interface, route, firewall status, etc). The visualization component could provide realtime graphs of system load and traffic statistics, for example, historical system memory usage, network traffic per interface and traffic per transport layer connection.
+		\textbf{Status/Statistics visualization} offers a mobile-phone friendly view of the system status (firmware and kernel version, uptime, current time; CPU and memory usage, currently running processes, system and kernel log) and network-related status (interface, route, firewall status, etc). The visualization component can provide real-time graphs of system load and traffic statistics, such as historical system memory usage, network traffic per interface and traffic per transport layer connection.
 		
 	\end{itemize}
 	
