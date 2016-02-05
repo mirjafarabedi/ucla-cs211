@@ -2,6 +2,8 @@
 *.img
 *.vdi
 
+*.log
+
 # Mac folder
 .DS_Store
 
