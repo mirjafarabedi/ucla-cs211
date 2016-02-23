@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">cs211</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_category__selection">Category_Selection</string>
+    <string name="title_activity_status__statistics">Status_Statistics</string>
+    <string name="title_activity_system__configuration">System_Configuration</string>
+    <string name="title_activity_network__configuration">Network_Configuration</string>
+</resources>
