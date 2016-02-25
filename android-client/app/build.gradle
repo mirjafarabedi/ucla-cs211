@@ -25,4 +25,6 @@ dependencies {
     compile project(":volley")
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+    // Added dependency on jsoup for html parsing
+    compile 'org.jsoup:jsoup:1.7.3'
 }
