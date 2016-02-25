@@ -9,6 +9,8 @@ import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -35,11 +37,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public final static String TOKEN_PARAM = "urlToken";
     public final static String HTML_PARAM = "htmlString";
+    public CookieManager cookieManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        cookieManager = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
     }
 
     private void authenticateHttpRequest(String url, final String username, final String password) {
