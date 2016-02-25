@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 public class StatusOverviewActivity extends AppCompatActivity {
     private String urlToken = "";
     private String htmlString = "";
+    private String remoteAddress = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,9 @@ public class StatusOverviewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this.htmlString = intent.getStringExtra(LoginActivity.HTML_PARAM);
         this.urlToken = intent.getStringExtra(LoginActivity.TOKEN_PARAM);
+        this.remoteAddress = intent.getStringExtra(LoginActivity.REMOTE_PARAM);
+
+        sendHttpGetRequest(this.remoteAddress + "/cgi-bin/luci/;stok=" + this.urlToken + "/admin/status/iptables");
     }
 
     /**
@@ -89,7 +93,7 @@ public class StatusOverviewActivity extends AppCompatActivity {
                         Log.d(LoginActivity.DEBUG_TAG, "Got response!");
                         try {
                             Log.d(LoginActivity.DEBUG_TAG, response);
-                            WebView webview = (WebView) findViewById(R.id.webView);
+                            WebView webview = (WebView) findViewById(R.id.webView2);
                             webview.getSettings().setJavaScriptEnabled(true);
                             webview.loadData(response, "text/html", "UTF-8");
                         } catch (Exception e) {
