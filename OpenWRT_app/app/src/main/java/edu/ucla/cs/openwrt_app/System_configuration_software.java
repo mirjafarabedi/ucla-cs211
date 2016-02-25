@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
+//Option to add packages (withhold filter), or remove them from a list, checkbox-style.
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the

@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
+//holds resolv_host settings
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
