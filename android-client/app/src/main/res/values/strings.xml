@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">OpenWRTAndroidClient</string>
     <string name="action_settings">Settings</string>
+
+    <string name="menu_status">Status</string>
+    <string name="menu_system">System</string>
+    <string name="menu_network">Network</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_status_overview">Overview</string>
+    <string name="menu_status_firewall">Firewall</string>
+    <string name="menu_status_routes">Routes</string>
+
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

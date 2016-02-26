@@ -1,28 +1,22 @@
 package edu.ucla.csd.openwrtandroidclient;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,62 +29,68 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 public class LoginActivity extends AppCompatActivity {
-    public final static String DEBUG_TAG = "debug";
-    public final static String scriptPath = "/cgi-bin/luci";
-    public final static String protocol = "http://";
-
     public final static String TOKEN_PARAM = "urlToken";
     public final static String HTML_PARAM = "htmlString";
     public final static String REMOTE_PARAM = "remoteParam";
 
-    private static final String SET_COOKIE_KEY = "Set-Cookie";
-    private static final String COOKIE_KEY = "Cookie";
-    private static final String SESSION_COOKIE = "sessionid";
-
     public CookieManager cookieManager;
 
     private static LoginActivity _instance;
+    private RequestQueue requestQueue;
 
     public static LoginActivity get() {
         return _instance;
+    }
+
+    public RequestQueue getRequestQueue() {
+        return requestQueue;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         if (CookieHandler.getDefault() == null) {
             cookieManager = new CookieManager();
             CookieHandler.setDefault(cookieManager);
-            Log.d(DEBUG_TAG, "Creating new cookie manager and setting as default");
+            Log.d(Constants.DEBUG_TAG, "Creating new cookie manager and setting as default");
         } else {
-            Log.d(DEBUG_TAG, "Cookie handler has a default cookie manager");
+            Log.d(Constants.DEBUG_TAG, "Cookie handler has a default cookie manager");
         }
+        requestQueue = Volley.newRequestQueue(this);
         _instance = this;
+
+        Constants.loadMenuStrings();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     private void authenticateHttpRequest(String url, final String username, final String password, final String remoteAddress) {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        // for passing into the new Response.Listener
-        Log.e(DEBUG_TAG, url);
+        Log.d(Constants.DEBUG_TAG, url);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(DEBUG_TAG, "Got response!");
+                        Log.d(Constants.DEBUG_TAG, "Got response!");
                         try {
-                            Log.d(DEBUG_TAG, response);
-                            WebView webview = (WebView) findViewById(R.id.webView);
-                            webview.getSettings().setJavaScriptEnabled(true);
-                            webview.loadData(response, "text/html", "UTF-8");
+                            //WebView webview = (WebView) findViewById(R.id.webView);
+                            //webview.getSettings().setJavaScriptEnabled(true);
+                            //webview.loadData(response, "text/html", "UTF-8");
 
                             // Extra token from the authentication response html string
                             Document doc = Jsoup.parse(response);
                             // check exception for index
                             Element link = doc.select("a").get(1);
-                            // First "a" element should look like
+                            // Second "a" element should look like
                             // /cgi-bin/luci/;stok=c58e72d3f7659b2230feb90170d1e053/admin/status
                             if (link != null) {
                                 String firstLinkUrl = link.attr("href");
@@ -100,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
                                 if (matcher.find()) {
                                     // We start the status overview activity after successful login
                                     Intent intent = new Intent(LoginActivity.this, StatusOverviewActivity.class);
-                                    Log.d("matcher", matcher.group(1));
 
                                     intent.putExtra(TOKEN_PARAM, matcher.group(1));
                                     intent.putExtra(HTML_PARAM, response);
@@ -108,11 +107,11 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 } else {
                                     // this should at least be updated to handle authentication failure!
-                                    Log.d(DEBUG_TAG, "Unexpected html response");
+                                    Log.d(Constants.DEBUG_TAG, "Unexpected html response");
                                 }
                             }
                         } catch (Exception e) {
-                            Log.d(DEBUG_TAG, e.getMessage());
+                            Log.d(Constants.DEBUG_TAG, e.getMessage());
                         }
                     }
                 },
@@ -122,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (error.networkResponse != null) {
                             String toastString = "Error code: " + error.networkResponse.statusCode;
                             Toast.makeText(getApplicationContext(), toastString, Toast.LENGTH_LONG).show();
-                            Log.e(DEBUG_TAG, toastString);
+                            Log.e(Constants.DEBUG_TAG, toastString);
                         }
                     }
                 }) {
@@ -137,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        requestQueue.add(stringRequest);
     }
 
     public void loginButtonClick(View view) {
@@ -152,9 +151,9 @@ public class LoginActivity extends AppCompatActivity {
         String portNumber = portNumberText.getText().toString();
 
         try {
-            authenticateHttpRequest(protocol + ipAddress + ":" + portNumber + scriptPath, username, password, protocol + ipAddress + ":" + portNumber);
+            authenticateHttpRequest(NetworkRequest.protocol + ipAddress + ":" + portNumber + NetworkRequest.scriptPath, username, password, NetworkRequest.protocol + ipAddress + ":" + portNumber);
         } catch (Exception e) {
-            Log.e(DEBUG_TAG, e.getMessage());
+            Log.e(Constants.DEBUG_TAG, e.getMessage());
         }
     }
 }
