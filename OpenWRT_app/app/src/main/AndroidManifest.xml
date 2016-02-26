@@ -15,10 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Network_configuration" />
-        <activity android:name=".Status_statistics" />
-        <activity android:name=".System_configuration" />
-        <activity android:name=".Selection_screen"></activity>
+        <activity android:name=".NetworkConfiguration" />
+        <activity android:name=".StatusStatistics" />
+        <activity android:name=".SystemConfiguration" />
+        <activity android:name=".SelectionScreen"></activity>
     </application>
 
 </manifest>

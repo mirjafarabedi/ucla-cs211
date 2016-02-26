@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.ucla.cs.openwrt_app.Network_configuration_firewall_traffic_rules_new_open_port">
+    tools:context=".NetworkConfigurationFirewallTrafficRulesNewOpenPort">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

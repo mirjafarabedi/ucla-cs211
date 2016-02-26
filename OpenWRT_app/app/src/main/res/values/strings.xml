@@ -4,4 +4,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_system_configuration">System_configuration</string>
+    <string name="tab_one">Interfaces</string>
+    <string name="tab_two">Firewall</string>
+    <string name="tab_three">Static Routes</string>
+    <string name="tab_four">DHCP &amp; DNS</string>
+
 </resources>
