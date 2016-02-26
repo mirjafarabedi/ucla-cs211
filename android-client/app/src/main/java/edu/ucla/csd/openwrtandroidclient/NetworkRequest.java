@@ -59,7 +59,7 @@ public class NetworkRequest {
 
     public static void sendHttpGetRequest(String url, Response.Listener<String> responseListener) {
         RequestQueue queue = LoginActivity.get().getRequestQueue();
-        // Request a string response from the provided URL.
+        Log.d(Constants.DEBUG_TAG, "GET: " + url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 responseListener,
                 new Response.ErrorListener() {
@@ -78,7 +78,7 @@ public class NetworkRequest {
 
     public static void sendHttpPostRequest(String url, Response.Listener<String> responseListener, final HashMap<String, String> params) {
         RequestQueue queue = LoginActivity.get().getRequestQueue();
-        // Request a string response from the provided URL.
+        Log.d(Constants.DEBUG_TAG, "POST: " + url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 responseListener,
                 new Response.ErrorListener() {
