@@ -11,6 +11,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by zhehaowang on 2/25/16.
  */
@@ -68,6 +71,30 @@ public class NetworkRequest {
                         }
                     }
                 });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    public static void sendHttpPostRequest(String url, Response.Listener<String> responseListener, final HashMap<String, String> params) {
+        RequestQueue queue = LoginActivity.get().getRequestQueue();
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                responseListener,
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.networkResponse != null) {
+                            String toastString = "Error code: " + error.networkResponse.statusCode;
+                            Log.d(Constants.DEBUG_TAG, toastString);
+                        }
+                    }
+                }) {
+            @Override
+            protected Map<String,String> getParams(){
+                return params;
+            }
+        };
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
