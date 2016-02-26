@@ -45,6 +45,9 @@ public class StatusOverviewActivity extends AppCompatActivity {
     Response.Listener<String> networkListener;
     Response.Listener<String> listener;
 
+    private Menu menu;
+    private String viewCategory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,9 +109,10 @@ public class StatusOverviewActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    // JS doesn't help us in this case
                     htmlString = removeMenu(response);
                     //webView.loadData(htmlString, "text/html", "UTF-8");
+                    getMenuInflater().inflate(R.menu.menu_status, menu);
+                    invalidateOptionsMenu();
 
                     HashMap<String, String> params = new HashMap<>();
                     params.put("status", "1");
@@ -142,6 +146,21 @@ public class StatusOverviewActivity extends AppCompatActivity {
         } else {
             Log.e(Constants.DEBUG_TAG, "Unexpected html string when opening Overview activity");
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        /*
+        if (viewCategory == Constants.STATUS) {
+            getMenuInflater().inflate(R.menu.menu_status, menu);
+            this.menu = menu;
+        } else {
+            getMenuInflater().inflate(R.menu.menu_default, menu);
+            this.menu = menu;
+        }
+        */
+        Log.d("debug", "prepare option menu");
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public String removeMenu(String html) {
@@ -223,6 +242,8 @@ public class StatusOverviewActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_default, menu);
+        this.menu = menu;
+        Log.d("debug", "create option menu");
         return true;
     }
 
@@ -231,12 +252,16 @@ public class StatusOverviewActivity extends AppCompatActivity {
 
         if (title == Constants.STATUS) {
             NetworkRequest.sendHttpGetRequest(this.remoteAddress + NetworkRequest.scriptPath + "/;stok=" + this.urlToken + "/admin/status/overview", overviewListener);
+            viewCategory = Constants.STATUS;
         } else if (title == Constants.NETWORK) {
             NetworkRequest.sendHttpGetRequest(this.remoteAddress + NetworkRequest.scriptPath + "/;stok=" + this.urlToken + "/admin/network/network", networkListener);
+            viewCategory = Constants.NETWORK;
         } else if (title == Constants.SYSTEM) {
             NetworkRequest.sendHttpGetRequest(this.remoteAddress + NetworkRequest.scriptPath + "/;stok=" + this.urlToken + "/admin/system/system", listener);
+            viewCategory = Constants.SYSTEM;
         } else if (title == Constants.LOGOUT) {
             NetworkRequest.sendHttpGetRequest(this.remoteAddress + NetworkRequest.scriptPath + "/;stok=" + this.urlToken + "/admin/logout", listener);
+            viewCategory = Constants.LOGOUT;
         }
     }
 
