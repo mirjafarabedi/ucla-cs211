@@ -22,7 +22,7 @@ public class NetworkRequest {
     public final static String protocol = "http://";
 
     /**
-     * List of get requests on the menu:
+     * List of get requests on the menu (GET):
      * Status sub category:
      * /cgi-bin/luci/;stok=c58e72d3f7659b2230feb90170d1e053/admin/status
      * /cgi-bin/luci/;stok=c58e72d3f7659b2230feb90170d1e053/admin/status/overview
@@ -55,6 +55,15 @@ public class NetworkRequest {
      *
      * Logout:
      * /cgi-bin/luci/;stok=c58e72d3f7659b2230feb90170d1e053/admin/logout
+     */
+
+    /**
+     * JSON API:
+     *
+     * GET: /cgi-bin/luci/;stok=9a023cdafe2ddef8e74ccd1ec8cfd5bf/admin/network/iface_status/lan,wan,wan6
+     * POST: /cgi-bin/luci/;stok=c58e72d3f7659b2230feb90170d1e053/ {status=1} (Overview status)
+     * GET /cgi-bin/luci/;stok=9a023cdafe2ddef8e74ccd1ec8cfd5bf/admin/system/clock_status
+     *
      */
 
     public static void sendHttpGetRequest(String url, Response.Listener<String> responseListener) {

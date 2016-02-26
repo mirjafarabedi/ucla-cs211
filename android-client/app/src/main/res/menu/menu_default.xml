@@ -10,6 +10,16 @@
     <item android:id="@+id/menu_network" android:title="@string/menu_network"
         android:orderInCategory="100" app:showAsAction="never"
         android:onClick="menuSwitch"/>
+
+    <!-- Temporary sub categories, left here until menu's fixed -->
+    <item android:id="@+id/menu_status_firewall" android:title="@string/menu_status_firewall"
+        android:orderInCategory="100" app:showAsAction="never"
+        android:onClick="menuSwitch"/>
+    <item android:id="@+id/menu_status_routes" android:title="@string/menu_status_routes"
+        android:orderInCategory="100" app:showAsAction="never"
+        android:onClick="menuSwitch"/>
+    <!-- -->
+
     <item android:id="@+id/menu_logout" android:title="@string/menu_logout"
         android:orderInCategory="100" app:showAsAction="never"
         android:onClick="menuSwitch"/>

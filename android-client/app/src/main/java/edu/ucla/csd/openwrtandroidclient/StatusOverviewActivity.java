@@ -262,6 +262,10 @@ public class StatusOverviewActivity extends AppCompatActivity {
         } else if (title == Constants.LOGOUT) {
             NetworkRequest.sendHttpGetRequest(this.remoteAddress + NetworkRequest.scriptPath + "/;stok=" + this.urlToken + "/admin/logout", listener);
             viewCategory = Constants.LOGOUT;
+        } else if (title == Constants.FIREWALL) {
+            NetworkRequest.sendHttpGetRequest(this.remoteAddress + NetworkRequest.scriptPath + "/;stok=" + this.urlToken + "/admin/status/iptables", listener);
+        } else if (title == Constants.ROUTES) {
+            NetworkRequest.sendHttpGetRequest(this.remoteAddress + NetworkRequest.scriptPath + "/;stok=" + this.urlToken + "/admin/status/routes", listener);
         }
     }
 
