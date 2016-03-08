@@ -19,14 +19,21 @@ class AppFilterServer(object):
       "facebook": "facebook",
       "1e100": "google"
     }
+
+    # Time threshold in milliseconds for writing to file
+    self._fileWriteThreshold = 1000
+    self._lastPacketTime = 0
     return
 
   def extractHeader(self, line):
     components = line.split()
-    return {"pktCnt": components[0], "timestamp": components[1], 
-            "srcAddr": components[2], "dstAddr": components[4],
-            "protocol": components[5], "length": components[6],
-            "payload": (" ").join(components[6:])}
+    try:
+      return {"pktCnt": components[0], "timestamp": components[1], 
+              "srcAddr": components[2], "dstAddr": components[4],
+              "protocol": components[5], "length": components[6],
+              "payload": (" ").join(components[6:])}
+    except:
+      return None
 
   def getApplication(self, domain):
     for key, value in self._applicationMapping.iteritems():
@@ -36,6 +43,13 @@ class AppFilterServer(object):
 
   def getStat(self, line):
     components = self.extractHeader(line)
+    currentTime = int(time.time() * 1000)
+    if currentTime - self._lastPacketTime > self._fileWriteThreshold:
+      self.writeStat("output.txt")
+
+    if not components:
+      return
+
     srcAddr = components["srcAddr"]
     dstAddr = components["dstAddr"]
     length = int(components["length"])
@@ -71,7 +85,17 @@ class AppFilterServer(object):
       pass
       #print "do not have dns mapping for dst address: " + dstAddr
 
+    self._lastPacketTime = currentTime
     return
+
+
+  def writeStat(self, outputFile):
+    f = open(outputFile, 'w')
+    for application in self._trafficDict:
+      for srcAddr in self._trafficDict[application]:
+        output = application + ":" + srcAddr + ":" + str(self._trafficDict[application][srcAddr]) + "\n"
+        f.write(output)
+    f.close()
 
   def followFile(self, filename):
     f = subprocess.Popen(['tail', '-F', filename],\
@@ -99,6 +123,13 @@ class AppFilterServer(object):
 
 if __name__ == "__main__":
   appFilterServer = AppFilterServer()
+
+  # debug code
   appFilterServer.readFile("log.txt")
   appFilterServer.debug()
-  #appFilterServer.followFile("log.txt")
+  while True:
+    appFilterServer.getStat("")
+    time.sleep(1)
+
+  # production code
+  #appFilterServer.followFile()
