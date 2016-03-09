@@ -13,7 +13,7 @@ class AppFilterServer(object):
     self._dnsReplyCharacteristicString = "name = "
     self._dnsNoReplyString = "none"
 
-    self._trafficDict = dict()
+    self._trafficDict = {"incoming": dict(), "outgoing": dict()}
     self._applicationMapping = {
       "fbcdn": "facebook", 
       "google": "google", 
@@ -97,7 +97,11 @@ class AppFilterServer(object):
     length = components["length"]
     srcIsAddr = components["srcIsAddr"]
     dstIsAddr = components["dstIsAddr"]
-    
+
+    filterAsIncoming = True
+
+    # Assuming that the hosts in this network do not use a hostname, and even if they do, they won't contain the key characters we use to distinguish services
+    # Try filtering as outgoing traffic
     if dstIsAddr:
       # This filters only outgoing traffic
       if dstAddr not in self._dnsMapping:
@@ -122,14 +126,54 @@ class AppFilterServer(object):
       application = self.getApplication(dstDomain)
       if application:
         print "Adding length " + str(length) + " to " + application + " : " + srcAddr + "; because of " + dstDomain
-        if application in self._trafficDict:
-          if srcAddr in self._trafficDict[application]:
-            self._trafficDict[application][srcAddr] += length
+        filterAsIncoming = False
+        if application in self._trafficDict["outgoing"]:
+          if srcAddr in self._trafficDict["outgoing"][application]:
+            self._trafficDict["outgoing"][application][srcAddr] += length
           else:
-            self._trafficDict[application][srcAddr] = length
+            self._trafficDict["outgoing"][application][srcAddr] = length
         else:
-          self._trafficDict[application] = dict()
-          self._trafficDict[application][srcAddr] = length
+          self._trafficDict["outgoing"][application] = dict()
+          self._trafficDict["outgoing"][application][srcAddr] = length
+    else:
+      pass
+
+    if not filterAsIncoming:
+      return
+
+    # Try filtering as incoming traffic
+    if srcIsAddr:
+      # This filters only outgoing traffic
+      if srcAddr not in self._dnsMapping:
+        output = subprocess.Popen(['nslookup', srcAddr], stdout = subprocess.PIPE, stderr = subprocess.STDOUT).stdout.read()
+        if self._dnsReplyCharacteristicString in output:
+          # This characteristic string based approach works for my NsLookup on OSX, but not on OpenWRT yet
+          idx = output.find(self._dnsReplyCharacteristicString)
+          nextLineIdx = output.find("\n", idx)
+          self._dnsMapping[srcAddr] = output[idx + len(self._dnsReplyCharacteristicString):nextLineIdx]
+        else:
+          # use self._dnsNoReplyString so that query for same address would not be sent again
+          self._dnsMapping[srcAddr] = self._dnsNoReplyString
+
+      # After the DNS reverse query, if we have this entry, we'll add it up to our statistics
+      # This is expected to be synchronous
+      if srcAddr in self._dnsMapping:
+        srcDomain = self._dnsMapping[srcAddr]
+    else:
+      srcDomain = srcAddr
+
+    if srcDomain != self._dnsNoReplyString:
+      application = self.getApplication(srcDomain)
+      if application:
+        print "Adding length " + str(length) + " to " + application + " : " + dstAddr + "; because of " + srcDomain
+        if application in self._trafficDict["incoming"]:
+          if dstAddr in self._trafficDict["incoming"][application]:
+            self._trafficDict["incoming"][application][dstAddr] += length
+          else:
+            self._trafficDict["incoming"][application][dstAddr] = length
+        else:
+          self._trafficDict["incoming"][application] = dict()
+          self._trafficDict["incoming"][application][dstAddr] = length
     else:
       pass
 
