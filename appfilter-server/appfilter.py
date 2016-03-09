@@ -24,7 +24,7 @@ class AppFilterServer(object):
 
     # Time threshold in milliseconds for writing statistics to a file
     self._fileWriteThreshold = 1000
-    self._lastPacketTime = 0
+    self._lastWriteTime = 0
     self._outputFile = "output.txt"
     return
 
@@ -60,9 +60,10 @@ class AppFilterServer(object):
   def getStat(self, line, extractHeader):
     components = extractHeader(line)
     currentTime = int(time.time() * 1000)
-    if currentTime - self._lastPacketTime > self._fileWriteThreshold:
+    if currentTime - self._lastWriteTime > self._fileWriteThreshold:
       print "Dumping output file"
       self.writeStat(self._outputFile)
+      self._lastWriteTime = currentTime
 
     if not components:
       return
@@ -117,7 +118,6 @@ class AppFilterServer(object):
     else:
       pass
 
-    self._lastPacketTime = currentTime
     return
 
   def writeStat(self, outputFile):
