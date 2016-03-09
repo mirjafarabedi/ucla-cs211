@@ -41,11 +41,11 @@ class AppFilterServer(object):
   def extractHeaderFollow(self, line):
     components = line.split()
     try:
-      print components[-1]
       return {"timestamp": components[0],
-              "srcAddr": (".").join(components[2].split(".")[:-1]), 
+              "srcAddr": components[2], 
               # even in the case of dst being a domain name, having this split doesn't matter as .com gets removed
-              "dstAddr": (".").join(components[4].split(".")[:-1]),
+              #"dstAddr": (".").join(components[4].split(".")[:-1]),
+              "dstAddr": components[4],
               "protocol": components[1], 
               "length": int(components[-1])}
     except:
@@ -61,6 +61,7 @@ class AppFilterServer(object):
     components = extractHeader(line)
     currentTime = int(time.time() * 1000)
     if currentTime - self._lastPacketTime > self._fileWriteThreshold:
+      print "Dumping output file"
       self.writeStat(self._outputFile)
 
     if not components:
@@ -104,6 +105,7 @@ class AppFilterServer(object):
     if dstDomain != self._dnsNoReplyString:
       application = self.getApplication(dstDomain)
       if application:
+        print "Adding length " + str(length) + " to " + application + " : " + srcAddr
         if application in self._trafficDict:
           if srcAddr in self._trafficDict[application]:
             self._trafficDict[application][srcAddr] += length
