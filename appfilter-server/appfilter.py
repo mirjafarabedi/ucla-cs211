@@ -18,15 +18,17 @@ class AppFilterServer(object):
       "fbcdn": "facebook", 
       "google": "google", 
       "facebook": "facebook",
-      "1e100": "google"
+      "1e100": "google",
+      "akamai": "akamai"
     }
 
-    # Time threshold in milliseconds for writing to file
+    # Time threshold in milliseconds for writing statistics to a file
     self._fileWriteThreshold = 1000
     self._lastPacketTime = 0
+    self._outputFile = "output.txt"
     return
 
-  def extractHeader(self, line):
+  def extractHeaderRead(self, line):
     components = line.split()
     try:
       return {"pktCnt": components[0], "timestamp": components[1], 
@@ -36,17 +38,29 @@ class AppFilterServer(object):
     except:
       return None
 
+  def extractHeaderFollow(self, line):
+    components = line.split()
+    try:
+      return {"timestamp": components[0],
+              "srcAddr": (".").join(components[2].split(".")[:-1]), 
+              "dstAddr": (".").join(components[4].split(".")[:-1]),
+              "protocol": components[1], 
+              "length": components[-1]}
+    except:
+      return None
+
   def getApplication(self, domain):
     for key, value in self._applicationMapping.iteritems():
       if key in domain:
         return value
+    print "Not parsed domain: " + domain
     return
 
-  def getStat(self, line):
-    components = self.extractHeader(line)
+  def getStat(self, line, extractHeader = self.extractHeaderFollow):
+    components = extractHeader(line)
     currentTime = int(time.time() * 1000)
     if currentTime - self._lastPacketTime > self._fileWriteThreshold:
-      self.writeStat("output.txt")
+      self.writeStat(self._outputFile)
 
     if not components:
       return
@@ -115,18 +129,18 @@ class AppFilterServer(object):
   def readFile(self, filename):
     f = open(filename, 'r')
     for line in f:
-      self.getStat(line)
+      self.getStat(line, self.extractHeaderRead)
     f.close()
 
 if __name__ == "__main__":
   appFilterServer = AppFilterServer()
 
   # debug code
-  appFilterServer.readFile("log.txt")
-  appFilterServer.debug()
-  while True:
-    appFilterServer.getStat("")
-    time.sleep(1)
+  # appFilterServer.readFile("log.txt")
+  # appFilterServer.debug()
+  # while True:
+  #   appFilterServer.getStat("")
+  #   time.sleep(1)
 
   # production code
-  #appFilterServer.followFile()
+  appFilterServer.followFile("dump.txt")
