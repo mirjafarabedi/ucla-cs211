@@ -89,7 +89,6 @@ class AppFilterServer(object):
 
     except socket.error:
       isAddr = False
-      print "received domain name in dstAddr field"
 
     # After the DNS reverse query, if we have this entry, we'll add it up to our statistics
     # This is expected to be synchronous
@@ -106,7 +105,7 @@ class AppFilterServer(object):
     if dstDomain != self._dnsNoReplyString:
       application = self.getApplication(dstDomain)
       if application:
-        print "Adding length " + str(length) + " to " + application + " : " + srcAddr
+        print "Adding length " + str(length) + " to " + application + " : " + srcAddr + "; because of " + dstDomain
         if application in self._trafficDict:
           if srcAddr in self._trafficDict[application]:
             self._trafficDict[application][srcAddr] += length
