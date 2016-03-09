@@ -25,7 +25,7 @@ class AppFilterServer(object):
     # Time threshold in milliseconds for writing statistics to a file
     self._fileWriteThreshold = 1000
     self._lastWriteTime = 0
-    self._outputFile = "output.txt"
+    self._outputFile = "/tmp/output.txt"
     return
 
   def extractHeaderRead(self, line):
@@ -153,11 +153,11 @@ if __name__ == "__main__":
 
   # debug code
   if __debug__:
-    appFilterServer.readFile("log.txt")
+    appFilterServer.readFile("/tmp/log.txt")
     appFilterServer.debug()
     while True:
       appFilterServer.getStat("", appFilterServer.extractHeaderRead)
       time.sleep(1)
   else:
     # production code
-    appFilterServer.followFile("dump.txt")
+    appFilterServer.followFile("/tmp/dump.txt")
