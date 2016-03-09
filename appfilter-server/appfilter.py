@@ -43,6 +43,7 @@ class AppFilterServer(object):
     try:
       return {"timestamp": components[0],
               "srcAddr": (".").join(components[2].split(".")[:-1]), 
+              # even in the case of dst being a domain name, having this split doesn't matter as .com gets removed
               "dstAddr": (".").join(components[4].split(".")[:-1]),
               "protocol": components[1], 
               "length": components[-1]}
@@ -53,7 +54,6 @@ class AppFilterServer(object):
     for key, value in self._applicationMapping.iteritems():
       if key in domain:
         return value
-    print "Not parsed domain: " + domain
     return
 
   def getStat(self, line, extractHeader):
@@ -68,25 +68,40 @@ class AppFilterServer(object):
     srcAddr = components["srcAddr"]
     dstAddr = components["dstAddr"]
     length = int(components["length"])
+    isAddr = True
     try:
       socket.inet_aton(dstAddr)
-    except socket.error:
-      print "received domain name in dstAddr field"
 
-    if dstAddr not in self._dnsMapping:
-      output = subprocess.Popen(['nslookup', dstAddr], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.read()
-      if self._dnsReplyCharacteristicString in output:
-        idx = output.find(self._dnsReplyCharacteristicString)
-        nextLineIdx = output.find("\n", idx)
-        self._dnsMapping[dstAddr] = output[idx + len(self._dnsReplyCharacteristicString):nextLineIdx]
-      else:
-        # use self._dnsNoReplyString so that query for same address would not be sent again
-        self._dnsMapping[dstAddr] = self._dnsNoReplyString
+      # This filters only outgoing traffic
+      if dstAddr not in self._dnsMapping:
+        output = subprocess.Popen(['nslookup', dstAddr], stdout = subprocess.PIPE, stderr = subprocess.STDOUT).stdout.read()
+        if self._dnsReplyCharacteristicString in output:
+          # This characteristic string based approach works for my NsLookup on OSX, but not on OpenWRT yet
+          idx = output.find(self._dnsReplyCharacteristicString)
+          nextLineIdx = output.find("\n", idx)
+          self._dnsMapping[dstAddr] = output[idx + len(self._dnsReplyCharacteristicString):nextLineIdx]
+        else:
+          # use self._dnsNoReplyString so that query for same address would not be sent again
+          self._dnsMapping[dstAddr] = self._dnsNoReplyString
+
+    except socket.error:
+      isAddr = False
+      print "received domain name in dstAddr field"
 
     # After the DNS reverse query, if we have this entry, we'll add it up to our statistics
     # This is expected to be synchronous
-    if dstAddr in self._dnsMapping and self._dnsMapping[dstAddr] != self._dnsNoReplyString:
-      application = self.getApplication(self._dnsMapping[dstAddr])
+    if isAddr:
+      if dstAddr in self._dnsMapping:
+        dstDomain = self._dnsMapping[dstAddr]
+      else:
+        # DNS reverse query did not bring names back, we ignore this packet; 
+        # this should not happen for now, we leave a "none" string so that this address is not tried later
+        pass
+    else:
+      dstDomain = dstAddr
+
+    if dstDomain != self._dnsNoReplyString:
+      application = self.getApplication(dstDomain)
       if application:
         if application in self._trafficDict:
           if srcAddr in self._trafficDict[application]:
@@ -98,7 +113,6 @@ class AppFilterServer(object):
           self._trafficDict[application][srcAddr] = length
     else:
       pass
-      #print "do not have dns mapping for dst address: " + dstAddr
 
     self._lastPacketTime = currentTime
     return
@@ -136,11 +150,12 @@ if __name__ == "__main__":
   appFilterServer = AppFilterServer()
 
   # debug code
-  # appFilterServer.readFile("log.txt")
-  # appFilterServer.debug()
-  # while True:
-  #   appFilterServer.getStat("")
-  #   time.sleep(1)
-
-  # production code
-  appFilterServer.followFile("dump.txt")
+  if __debug__:
+    appFilterServer.readFile("log.txt")
+    appFilterServer.debug()
+    while True:
+      appFilterServer.getStat("", appFilterServer.extractHeaderRead)
+      time.sleep(1)
+  else:
+    # production code
+    appFilterServer.followFile("dump.txt")
