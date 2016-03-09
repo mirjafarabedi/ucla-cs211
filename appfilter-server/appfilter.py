@@ -1,6 +1,7 @@
 import time
 import subprocess
 import select
+import json
 
 # For ip address parsing
 import socket
@@ -88,13 +89,9 @@ class AppFilterServer(object):
     self._lastPacketTime = currentTime
     return
 
-
   def writeStat(self, outputFile):
     f = open(outputFile, 'w')
-    for application in self._trafficDict:
-      for srcAddr in self._trafficDict[application]:
-        output = application + ":" + srcAddr + ":" + str(self._trafficDict[application][srcAddr]) + "\n"
-        f.write(output)
+    f.write(json.dumps(self._trafficDict))
     f.close()
 
   def followFile(self, filename):
