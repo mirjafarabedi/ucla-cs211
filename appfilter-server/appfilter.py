@@ -41,19 +41,19 @@ class AppFilterServer(object):
   def isAddrIP(self, addr):
     addrs = addr.split(".")
     isAddr = True
-    if len(srcAddrs) == 5:
+    if len(addrs) == 5:
       try:
-        socket.inet_aton((".").join(addrs.split(".")[:-1]))
+        socket.inet_aton((".").join(addrs[:-1]))
       except socket.error:
         isAddr = False
-    elif len(srcAddrs) == 4:
+    elif len(addrs) == 4:
       try:
-        socket.inet_aton((".").join(addr)
+        socket.inet_aton(addr)
       except socket.error:
         isAddr = False
     else:
       isAddr = False
-    return {"isAddr": isAddr, "addr": addrs.split(".")[:-1]}
+    return {"isAddr": isAddr, "addr": (".").join(addrs[:-1])}                  
 
   def extractHeaderFollow(self, line):
     components = line.split()
@@ -113,10 +113,6 @@ class AppFilterServer(object):
       # This is expected to be synchronous
       if dstAddr in self._dnsMapping:
         dstDomain = self._dnsMapping[dstAddr]
-      else:
-        # DNS reverse query did not bring names back, we ignore this packet; 
-        # this should not happen for now, we leave a "none" string so that this address is not tried later
-        pass
     else:
       dstDomain = dstAddr
 
