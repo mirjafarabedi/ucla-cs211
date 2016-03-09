@@ -34,20 +34,42 @@ class AppFilterServer(object):
       return {"pktCnt": components[0], "timestamp": components[1], 
               "srcAddr": components[2], "dstAddr": components[4],
               "protocol": components[5], "length": int(components[6]),
-              "payload": (" ").join(components[6:])}
+              "payload": (" ").join(components[6:]), "srcIsAddr": True, "dstIsAddr": True}
     except:
       return None
+
+  def isAddrIP(self, addr):
+    addrs = addr.split(".")
+    isAddr = True
+    if len(srcAddrs) == 5:
+      try:
+        socket.inet_aton((".").join(addrs.split(".")[:-1]))
+      except socket.error:
+        isAddr = False
+    elif len(srcAddrs) == 4:
+      try:
+        socket.inet_aton((".").join(addr)
+      except socket.error:
+        isAddr = False
+    else:
+      isAddr = False
+    return {"isAddr": isAddr, "addr": addrs.split(".")[:-1]}
 
   def extractHeaderFollow(self, line):
     components = line.split()
     try:
+      srcIsAddr = self.isAddrIP(components[2])
+      dstIsAddr = self.isAddrIP(components[4])
+
       return {"timestamp": components[0],
-              "srcAddr": components[2], 
+              "srcAddr": srcIsAddr["addr"], 
               # even in the case of dst being a domain name, having this split doesn't matter as .com gets removed
               #"dstAddr": (".").join(components[4].split(".")[:-1]),
-              "dstAddr": components[4],
-              "protocol": components[1], 
-              "length": int(components[-1])}
+              "dstAddr": dstIsAddr["addr"],
+              "protocol": components[1],
+              "length": int(components[-1]),
+              "srcIsAddr": srcIsAddr["isAddr"],
+              "dstIsAddr": dstIsAddr["isAddr"]}
     except:
       return None
 
@@ -71,10 +93,10 @@ class AppFilterServer(object):
     srcAddr = components["srcAddr"]
     dstAddr = components["dstAddr"]
     length = components["length"]
-    isAddr = True
-    try:
-      socket.inet_aton(dstAddr)
-
+    srcIsAddr = components["srcIsAddr"]
+    dstIsAddr = components["dstIsAddr"]
+    
+    if dstIsAddr:
       # This filters only outgoing traffic
       if dstAddr not in self._dnsMapping:
         output = subprocess.Popen(['nslookup', dstAddr], stdout = subprocess.PIPE, stderr = subprocess.STDOUT).stdout.read()
@@ -87,12 +109,8 @@ class AppFilterServer(object):
           # use self._dnsNoReplyString so that query for same address would not be sent again
           self._dnsMapping[dstAddr] = self._dnsNoReplyString
 
-    except socket.error:
-      isAddr = False
-
-    # After the DNS reverse query, if we have this entry, we'll add it up to our statistics
-    # This is expected to be synchronous
-    if isAddr:
+      # After the DNS reverse query, if we have this entry, we'll add it up to our statistics
+      # This is expected to be synchronous
       if dstAddr in self._dnsMapping:
         dstDomain = self._dnsMapping[dstAddr]
       else:
