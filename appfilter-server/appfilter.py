@@ -56,7 +56,7 @@ class AppFilterServer(object):
     print "Not parsed domain: " + domain
     return
 
-  def getStat(self, line, extractHeader = self.extractHeaderFollow):
+  def getStat(self, line, extractHeader):
     components = extractHeader(line)
     currentTime = int(time.time() * 1000)
     if currentTime - self._lastPacketTime > self._fileWriteThreshold:
@@ -118,7 +118,7 @@ class AppFilterServer(object):
     while True:
       # This is not supported by Mac OSX's default Python
       if p.poll(1):
-        self.getStat(f.stdout.readline())
+        self.getStat(f.stdout.readline(), self.extractHeaderFollow)
       time.sleep(0.01)
 
   def debug(self):
