@@ -33,7 +33,7 @@ class AppFilterServer(object):
     try:
       return {"pktCnt": components[0], "timestamp": components[1], 
               "srcAddr": components[2], "dstAddr": components[4],
-              "protocol": components[5], "length": components[6],
+              "protocol": components[5], "length": int(components[6]),
               "payload": (" ").join(components[6:])}
     except:
       return None
@@ -41,12 +41,13 @@ class AppFilterServer(object):
   def extractHeaderFollow(self, line):
     components = line.split()
     try:
+      print components[-1]
       return {"timestamp": components[0],
               "srcAddr": (".").join(components[2].split(".")[:-1]), 
               # even in the case of dst being a domain name, having this split doesn't matter as .com gets removed
               "dstAddr": (".").join(components[4].split(".")[:-1]),
               "protocol": components[1], 
-              "length": components[-1]}
+              "length": int(components[-1])}
     except:
       return None
 
@@ -67,7 +68,7 @@ class AppFilterServer(object):
 
     srcAddr = components["srcAddr"]
     dstAddr = components["dstAddr"]
-    length = int(components["length"])
+    length = components["length"]
     isAddr = True
     try:
       socket.inet_aton(dstAddr)
