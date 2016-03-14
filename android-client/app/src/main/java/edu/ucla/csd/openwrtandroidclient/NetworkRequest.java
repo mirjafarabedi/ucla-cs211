@@ -1,22 +1,16 @@
 package edu.ucla.csd.openwrtandroidclient;
 
 import android.util.Log;
-import android.webkit.WebView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by zhehaowang on 2/25/16.
- */
 public class NetworkRequest {
     public final static String scriptPath = "/cgi-bin/luci";
     public final static String protocol = "http://";

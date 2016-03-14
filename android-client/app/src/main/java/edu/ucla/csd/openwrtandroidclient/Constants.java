@@ -5,22 +5,15 @@ package edu.ucla.csd.openwrtandroidclient;
  */
 public class Constants {
     public final static String DEBUG_TAG = "debug";
+    public static String SERVER_IP;
+    public static String LAST_REQUEST_URL;
+    public final static String SERVER_URL = "server_url";
 
-    public static String STATUS;
-    public static String SYSTEM;
-    public static String NETWORK;
-    public static String LOGOUT;
-
-    public static String FIREWALL;
-    public static String ROUTES;
+    public static String TRAFFIC;
+    public static String STATUS_AND_CONFIGURATION;
 
     public static void loadMenuStrings() {
-        STATUS = LoginActivity.get().getResources().getString(R.string.menu_status);
-        SYSTEM = LoginActivity.get().getResources().getString(R.string.menu_system);
-        NETWORK = LoginActivity.get().getResources().getString(R.string.menu_network);
-        LOGOUT = LoginActivity.get().getResources().getString(R.string.menu_logout);
-
-        FIREWALL = LoginActivity.get().getResources().getString(R.string.menu_status_firewall);
-        ROUTES = LoginActivity.get().getResources().getString(R.string.menu_status_routes);
+        TRAFFIC = "Traffic Analysis";
+        STATUS_AND_CONFIGURATION = "Status and Configuration";
     }
 }

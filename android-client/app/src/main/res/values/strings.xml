@@ -10,7 +10,7 @@
     <string name="menu_status_firewall">Firewall</string>
     <string name="menu_status_routes">Routes</string>
 
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Open WRT Info</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
