@@ -39,7 +39,8 @@ class AppFilterServer(object):
       return None
 
   def isAddrIP(self, addr):
-    addrs = addr.split(".")
+    sanitizedAddr = addr.strip(":")
+    addrs = sanitizedAddr.split(".")
     isAddr = True
     addrWithoutPort = (".").join(addrs[:-1])
     if len(addrs) == 5:
@@ -49,13 +50,13 @@ class AppFilterServer(object):
         isAddr = False
     elif len(addrs) == 4:
       try:
-        socket.inet_aton(addr)
-        addrWithoutPort = addr
+        socket.inet_aton(sanitizedAddr)
+        addrWithoutPort = sanitizedAddr
       except socket.error:
         isAddr = False
     else:
       isAddr = False
-    return {"isAddr": isAddr, "addr": addrWithoutPort}                  
+    return {"isAddr": isAddr, "addr": addrWithoutPort}
 
   def extractHeaderFollow(self, line):
     components = line.split()
