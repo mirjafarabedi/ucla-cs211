@@ -1,6 +1,6 @@
 \subsection{Application specific traffic statistics implementation}
 
-Based on the design described in section \ref{sec:app-specific-design}, the proof of concept implementation pipes the output of \textit{tcpdump} to a custom backend, which reads the source and destination IP addresses, tries to use \textit{nslookup} to find the domain names by DNS reverse lookup, and match the domain names with statically configured characteristic strings; if a match is found, the number of bytes is added for corresponding service provider name and corresponding host, otherwise, the traffic is considered identified. The backend writes statistics in JSON format to a file, and the file is served by a simple web server. In the statistics, incoming and outgoing traffic, as well as different IP addresses within the local subnet are differentiated. An example of the JSON object is given below, in which the numbers are number of bytes per IP address and application. We use Python for the simple backend and web server, for easy prototyping purposes.
+Based on the design described in section \ref{sec:app-specific-design}, the proof of concept implementation pipelines the output of \textit{tcpdump} to a custom backend. The backend then reads the source and destination IP addresses, tries to use \textit{nslookup} to find domain names by DNS reverse lookup, and matches the domain names with statically configured characteristic strings. If a match is found, the number of bytes is added for corresponding service provider name and corresponding host; otherwise, the traffic is considered identified. The backend writes statistics in JSON format to a file, and the file is served by a simple web server. In the statistics, incoming and outgoing traffic, as well as different IP addresses within the local subnet, is differentiated. An example of the JSON object is given below, in which the numbers are number of bytes per IP address and application. We use Python for the simple backend and web server, for easy prototyping purposes.
 
 \begin{listing}
 \begin{minted}[frame=none,
@@ -18,11 +18,11 @@ Based on the design described in section \ref{sec:app-specific-design}, the proo
 \end{minted}
 \end{listing}
 
-Basic optimizations for the backend include introducing the following
+Basic optimizations for improving the performance of the backend include introducing the following:
 \begin{itemize}
 
 \item A cache for IP and domain mapping, so that instead of calling \textit{nslookup} each time a packet arrives, \textit{nslookup} is tried only once for each IP address within a given time.
 
-\item A minimum interval of one minute between writing statistics back, so that the number of file writes is limited.
+\item A minimum waiting interval of one minute between writing statistics back, so that the number of file writes is limited.
 
 \end{itemize}
