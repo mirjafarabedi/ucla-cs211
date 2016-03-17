@@ -1,18 +1,22 @@
-\section{Design and implementation \\ roadmap}
+\section{Design}
 	
-Based on the functional modules of LuCI, we will design the functional components of the Android application, which are organized into three major categories:
+%Based on the functional modules of LuCI, we will design the functional components of the Android application, which are organized into three major categories:
 	
-\begin{itemize}
+%\begin{itemize}
 		
-		\item
-		\textbf{Network configuration} covers common functionalities in configuration tools that often come with commercial APs. These configurations include, but may not be limited to, managing network interfaces, DHCP and DNS settings, static routes, and firewall.
+%		\item
+%		\textbf{Network configuration} covers common functionalities in configuration tools that often come with commercial APs. These configurations include, but may not be limited to, managing network interfaces, DHCP and DNS settings, static routes, and firewall.
 		
-		\item
-		\textbf{System configuration} provides an interface to customize the OpenWRT box. Common adminstration functions include: system and user configuration (setting device adminstrator password, creating system backup image and restoring system from backup image, generating user SSH keys, etc), software management (installing and configuring software packages) and task management (managing scheduled task and startup task). If the time allows, an in-application command line tool can be implemented for advanced users to execute console commands from the application to further customize the OpenWRT box.
+%		\item
+%		\textbf{System configuration} provides an interface to customize the OpenWRT box. Common adminstration functions include: system and user configuration (setting device adminstrator password, creating system backup image and restoring system from backup image, generating user SSH keys, etc), software management (installing and configuring software packages) and task management (managing scheduled task and startup task). If the time allows, an in-application command line tool can be implemented for advanced users to execute console commands from the application to further customize the OpenWRT box.
 		
-		\item
-		\textbf{Status/Statistics visualization} offers a mobile-phone friendly view of the system status (firmware and kernel version, uptime, current time; CPU and memory usage, currently running processes, system and kernel log) and network-related status (interface, route, firewall status, etc). The visualization component can provide real-time graphs of system load and traffic statistics, such as historical system memory usage, network traffic per interface and traffic per transport layer connection.
+%		\item
+%		\textbf{Status/Statistics visualization} offers a mobile-phone friendly view of the system status (firmware and kernel version, uptime, current time; CPU and memory usage, currently running processes, system and kernel log) and network-related status (interface, route, firewall status, etc). The visualization component can provide real-time graphs of system load and traffic statistics, such as historical system memory usage, network traffic per interface and traffic per transport layer connection.
 		
-\end{itemize}
+%\end{itemize}
 	
-	The design and implementation effort will be organized by the three function categories, with approximately one and a half weeks dedicated to each.
+%	The design and implementation effort will be organized by the three function categories, with approximately one and a half weeks dedicated to each.
+
+\input{design-backend.tex}
+
+\input{design-android.tex}
