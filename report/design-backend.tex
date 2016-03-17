@@ -1,5 +1,18 @@
 \subsection{Backend}
 
+\subsubsection{architecture}
+Figure \ref{android-architecture} shows the architecture of the OpenWRT backend. As LuCI seb service/interface provides most of the functions needed to analyze network status and configure network (both wired and wireless networks), we decide to reuse (and extend) its existing service. However, some useful functions are not provided by LuCI seb service/interface, for example, it is useful to analyze per-device per-application network usage. To provide extra functions, we decide to build an extra python web service on OpenWRT to work as another backend. Following the same idea, we can add more backends for more functions if needed.
+
+\begin{figure*}
+	\centering
+	\includegraphics[width=0.75\textwidth]{backend-architecture.png}
+	\caption{Backend Architecture}
+	\label{backend-architecture}
+\end{figure*}
+
+\subsubsection{LuCI Web Service/Interface}
+LuCI system provides so many tools to operate OpenWrt. For example, ``luci.sys'' package can be used to call system functions, ``'luci.http'' package can be used to deal with http protocols, ``luci.controller.rpc'' can be used to call remote process, ... An extremely useful package is ``luci.util.exec'', which can be used to execute command lines, and get the execution results. For the functions that can be completed directly through system calls or command lines, we can extend LuCI service to add these functions.
+
 \subsubsection{Application specific traffic statistics}
 \label{sec:app-specific-design}
 
