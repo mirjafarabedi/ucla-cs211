@@ -2,7 +2,7 @@
 This sub-section describes the design of the OpenWRT remote access mobile application. Since this is a proof of concept, we only designed and implemented the application on Android platform.
 
 \subsubsection{Architecture}
-Figure \ref{android-architecture} shows the architecture of the Android OpenWRT remote access mobile application. It mainly contains four sub modules: activity module, network communication module, graphical user interfac module and response result parer module. Among these four modules, activities combine the other three modules together to present result to users and take users' inputs.
+Figure \ref{android-architecture} shows the architecture of the Android OpenWRT remote access mobile application. It mainly contains four sub modules: the activity module, network communication module, graphical user interface module and response result parer module. Among these four modules, the activity module combines the other three modules together to present information and visuals to users and take users' inputs.
 	\begin{figure*}
 		\centering
 		\includegraphics[width=0.75\textwidth]{android-architecture.png}
@@ -11,9 +11,9 @@ Figure \ref{android-architecture} shows the architecture of the Android OpenWRT 
 	\end{figure*}
 
 \subsubsection{Network Communication}
-Since the application needs to communicate with OpenWRT backend server, it's necessary to provide a network communication module to handle all the network operation, so that other modules can simply use its APIs without worrying about the details.
+Since the application needs to communicate with the OpenWRT backend server, it is necessary to provide a network communication module to handle all the network operations, so that other modules can simply use its APIs without worrying about the details.
 
-LuCI backend and application specific traffic analysis backend both provide http-based interfaces. To commuicate with these two backends, the network communication module needs to be able to send ``http POST'' and ``http GET'' requests and receives responses. A key part is to build proper URLs according to backends' requirments. The only difference between ``http POST'' and ``http GET'' is that ``http POST'' carries some parameters in the URL. For example, a ``http POST'' request to communicate with LuCI backend is ``http://<IP address of the OpenWrt Box>:<server port>/cgi-bin/luci/;stok=<stok id>''; a ``http GET'' request to communicate with application specific traffic analysis backend is ``http://<IP address of the OpenWrt Box>:<server port>/output.txt''
+LuCI backend and application-specific traffic analysis backend both provide http-based interfaces. To commuicate with these two backends, the network communication module needs to be able to send ``http POST'' and ``http GET'' requests and receives responses. A key part is to build proper URLs according to backends' requirments. The only difference between ``http POST'' and ``http GET'' is that ``http POST'' carries some parameters in the URL. For example, a ``http POST'' request to communicate with LuCI backend is ``http://<IP address of the OpenWrt Box>:<server port>/cgi-bin/luci/;stok=<stok id>''; a ``http GET'' request to communicate with application specific traffic analysis backend is ``http://<IP address of the OpenWrt Box>:<server port>/output.txt''
 
 \subsubsection{Graphical User Interface}
 The goal of the graphical user interface design was to simplify the user interface on a smartphone. To that end, the limitations of the LuCI web interface were studied to provide design guidelines. The first issue analyzed was that LuCI had an issue in its navigation on smartphones. To navigate through the application categories, the user needed to select a category in the navigation menu, then select a subcategory from the dropdown menu. Additionally, changing subcategories within the same category still required selecting the overarching category again. Therefore, a design goal of the application would be to maintain the current category and simply swap subcategories.
