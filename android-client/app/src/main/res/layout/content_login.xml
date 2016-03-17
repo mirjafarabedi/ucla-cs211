@@ -19,8 +19,7 @@
         android:inputType="text"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:selectAllOnFocus="true"
-        android:text="192.168.0.16"/>
+        android:selectAllOnFocus="true"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -31,7 +30,6 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:selectAllOnFocus="true"
-        android:text="8080"
         android:layout_below="@+id/ipAddressText"
         android:layout_centerHorizontal="true" />
 
