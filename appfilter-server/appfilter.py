@@ -6,6 +6,9 @@ import json
 # For ip address parsing
 import socket
 
+# Dependency: python-light, python-codecs, python-logging, python-openssl (if want no errors in server.py)
+# tcpdump -i eth0.2 > /tmp/dump.txt
+
 class AppFilterServer(object):
   def __init__(self):
     self._dnsMapping = dict()
