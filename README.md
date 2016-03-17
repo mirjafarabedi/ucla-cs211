@@ -3,17 +3,27 @@ UCLA CS 211 Course Project, Winter 2016
 
 Topic: Android app for remote configuration of OpenWRT box
 
+Contacts
+--------------------
+Zhehao Wang <zhehao@remap.ucla.edu>
+
+Haitao Zhang <zhtaoxiang@gmail.com>
+
+Jeffrey Chen <jc4556@g.ucla.edu>
+
 About this repository
 --------------------
 ### withAppAnalysis branch
- - **android-client**    // _The frontend application that configures OpenWRT (initial attempt with WebView, <a href="http://memoria.ndn.ucla.edu/openwrt2.mp4">screen recording</a>)_
+ - **android-client**    : _The frontend application that configures OpenWRT (initial attempt with WebView, <a href="http://memoria.ndn.ucla.edu/openwrt2.mp4">screen recording with changing SSID and seeing app-specific statistics</a>)_
+
 ### Master branch
- - **android-client**    // _The frontend application that configures OpenWRT (migration from WebView to more native Android UI widgets, doesn't have AppFilter frontend yet, <a href="http://memoria.ndn.ucla.edu/openwrt1.mp4">screen recording</a>)_
- - **OpenWRT\_app**      // _The frontend application that only contains the UI framework_
- - **proposal**          // _TeX source for the project opening proposal_
- - **report**            // _Tex source for the project report_
+ - **android-client**    : _The frontend application that configures OpenWRT (migration from WebView to more native Android UI widgets, doesn't have AppFilter frontend yet, <a href="http://memoria.ndn.ucla.edu/openwrt1.mp4">screen recording with login and browsing</a>)_
+ - **OpenWRT\_app**      : _The frontend application that only contains the UI framework_
+ - **proposal**          : _TeX source for the project opening proposal_
+ - **report**            : _Tex source for the project report_
+
 ### Appfilter branch
- - **appfilter-server**  // _The Python backend for application specific filtering_
+ - **appfilter-server**  : _The Python backend for application specific filtering_
 
 Notes and instructions
 --------------------
@@ -28,7 +38,7 @@ git submodule update
  * How to use (shown in corresponding screen recordings):
    * Open in Android Studio, sync gradle, compile, and deploy
    * Login to OpenWRT with IP address, port number, username, and password
-   * Browser and configure
+   * Browser and configure the OpenWRT box! (Network -> Wifi should be configurable, if the device has a WLAN interface)
 
 ### AppFilter backend
  * Dependency: tcpdump, python-light, python-codecs, python-logging and python-openssl packages
@@ -44,11 +54,3 @@ opkg install tcpdump, python-light, python-codecs, python-logging, python-openss
   * JSON output should be written to "/tmp/output.txt" around every second
   * Generate real traffic (for now, please only use services provided by Google or Facebook)
   * run "python server.py" to serve the results; Symlink output to the directory where the program's running ("ln -s /tmp/output.txt ."), and the JSON output would be available with "GET [OpenWRT IP address]:8000" (if access from a virtual machine, need port forwarding for port 8000 of OpenWRT)
-
-Contacts
---------------------
-Zhehao Wang <zhehao@remap.ucla.edu>
-
-Haitao Zhang <zhtaoxiang@gmail.com>
-
-Jeffrey Chen <jc4556@g.ucla.edu>
