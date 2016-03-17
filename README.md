@@ -11,7 +11,7 @@ Haitao Zhang <zhtaoxiang@gmail.com>
 
 Jeffrey Chen <jc4556@g.ucla.edu>
 
-About this repository
+Repository branch and folder structure
 --------------------
 ### withAppAnalysis branch
  - **android-client**    : _The frontend application that configures OpenWRT (initial attempt with WebView, <a href="http://memoria.ndn.ucla.edu/openwrt2.mp4">screen recording with changing SSID and seeing app-specific statistics</a>)_
@@ -36,7 +36,7 @@ git submodule update
  * Built and tested with Android Studio on Mac OSX, please refer to each gradle file for dependencies
  * Applications tested for Android 4.4.4 and 5.1
  * How to use (shown in corresponding screen recordings):
-   * Open in Android Studio, sync gradle, compile, and deploy
+   * Open project folder in Android Studio, sync gradle, compile, and deploy
    * Login to OpenWRT with IP address, port number, username, and password
    * Browser and configure the OpenWRT box! (Network -> Wifi should be configurable, if the device has a WLAN interface)
 
