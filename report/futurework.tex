@@ -6,8 +6,8 @@ The future work for this project is identified as the following:
 
 \item Application specific traffic analysis module: rewriting the backend in C, remove dependency on tcpdump and communication via file system, differentiating traffic inside and outside the local subnet, creating traffic statistics based on time, and integration with LuCI backend.
 
-\item Continue with UI Implementation:
-Determine better content retrieval methods
-Uniform integration with additional functionalities
+\item Android UI: migrating to using native Java code and native Android UI widgets instead of the WebView.
+
+\item Backend pattern of communication simplification: instead of passing back html scripts from backend and parse the html script in the application, the backend should just reply with JSON objects including the Android application's queried objects.
 
 \end{itemize}
