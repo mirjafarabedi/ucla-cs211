@@ -21,5 +21,34 @@ The goal of the graphical user interface design was to simplify the user interfa
 Another LuCI WebView issue was that unsaved changes would be tracked in a session until committed. Tracking unsaved changes on a web browser can result in session complications, depending on browser settings for caching. Furthermore, the WebView relied on in-browser scripting to provide functional elements, which is a dependency that can be optimized. Therefore another aspect of our design was to make all actions atomic and contained to the screen they are accessed on, to avoid carrying changes. To make all actions atomic, all functional elements in the original WebView would be rebuilt natively in Android.
 	
 Based on the LuCI framework, the designed Android application's user interface screens consisted of a login screen, then three major categories: status, network, and system. Each category then presented a subnavigation menu that persisted until another major category was selected, allowing users to move more freely within same category.
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.4\textwidth]{UItopdown.png}
+		\caption{the topdown navigation of the Android GUI design}
+		\label{OpenWRT:androidtopdown}
+	\end{figure}
 	
 Each separate screen in the subcategories of the major categories was designed to maintain discrete actions and information. Rather than having multiple configuration forms and submission buttons in the same screen, the screen would be limited to at most one form each, with other forms being accessible on a new screen that is linked to by a list on the current screen.
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.4\textwidth]{UIstatus.png}
+		\caption{the Android status interfaces}
+		\label{OpenWRT:androidstatus}
+	\end{figure}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.4\textwidth]{UInetwork.png}
+		\caption{the Android network interfaces}
+		\label{OpenWRT:androidnetwork}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.4\textwidth]{UIsystem.png}
+		\caption{the Android system interfaces}
+		\label{OpenWRT:androidsystem}
+	\end{figure}
+	
+
