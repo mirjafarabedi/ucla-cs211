@@ -10,3 +10,6 @@ However, the implementation of the user interface reached complications. The maj
 \subsubsection{Network response parser}
 
 Android's JSON library is used for JSON response parsing. And Jsoup, a third-party html parser, is used for html response parsing. Jsoup provides interfaces that are similar with JavaScript's html DOM object manipulation, thus LuCI frontend's JavaScript UI code can be easily adapted to Java.
+
+\subsubsection{Activities}
+We design three activities, one handles user login, one handles the communication with LuCI web interfaces, and the last one handles communication with the per-device per-application traffic analysis backend. For each activity, we have different fragments to display different backend responses. Each activity also uses the APIs provided by other three modules: network communication APIs, Network response paser APIs and GUI.
