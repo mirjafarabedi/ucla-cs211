@@ -1,15 +1,17 @@
-\subsection{Android Application Implementation}
+\subsection{Android application implementation}
+
 \subsubsection{Network communication module}
+
 We use an existing library, Volley, for network communication module implementation. Volley features easier and faster http requests and responses on Android. Query parameters and corresponding response listeners are passed into the library, which handles the communication details.
 
 \subsubsection{Graphical user interface}
-The development of the user interface considered native Android solutions to the navigation. Typically, Android activities are single interface screens. Inside the Android activities, Android fragments can be used use to provide different tab screens. Therefore, tab navigation was implemented with Android activities for the categories, and Android fragments for the subcategories and forms.
 
-However, the implementation of the user interface reached complications. The major problem leading to complications was that in using the LuCI backend, content extraction using HTML retrieved whole WebView pages. JSON would extract smaller elements, but required specific queries, and would make code reuse difficult. Using both required parsing, and the extent of parsing needed for each category and subcategory complicated the implementation, taking more development time than available. The issue of parsing elements also complicated the implementation of buttons and other interactive objects, which needed to be re-made natively. Therefore, the graphical user interface was not completed in time.
+The development of the user interface considered native Android solutions to the navigation. Typically, Android activities are single interface screens. Inside the Android activities, Android fragments can be used use to provide different tab screens. Therefore, tab navigation was implemented with Android activities for the categories, and Android fragments for the subcategories and forms. However, the implementation of the user interface was complicated by using the LuCI backend: content extraction from HTML web pages took too much implementation effort, and more than necessary system resources. Given that a different pattern of communication with the backend might be preferred for future efforts, the UI is not fully implemented.
 
 \subsubsection{Network response parser}
 
 Android's JSON library is used for JSON response parsing. And Jsoup, a third-party html parser, is used for html response parsing. Jsoup provides interfaces that are similar with JavaScript's html DOM object manipulation, thus LuCI frontend's JavaScript UI code can be easily adapted to Java.
 
-\subsubsection{Activities}
-We design three activities, one handles user login, one handles the communication with LuCI web interfaces, and the last one handles communication with the per-device per-application traffic analysis backend. For each activity, we have different fragments to display different backend responses. Each activity also uses the APIs provided by other three modules: network communication APIs, Network response paser APIs and GUI.
+\subsubsection{Android activities}
+
+We designed three activities, one handles user login, one handles the communication with LuCI web interfaces, and the last one handles communication with the per-device per-application statistics backend. For each activity, we have different fragments to display different backend responses. Each activity also uses the APIs provided by the network communication module, and the response parser module.
