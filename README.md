@@ -14,7 +14,7 @@ Jeffrey Chen <jc4556@g.ucla.edu>
 Repository branch and folder structure
 --------------------
 ### withAppAnalysis branch
- - **android-client**    : _The frontend application that configures OpenWRT (initial attempt with WebView, <a href="http://memoria.ndn.ucla.edu/openwrt2.mp4">screen recording with changing SSID and seeing app-specific statistics</a>)_
+ - **android-client**    : _The frontend application that configures OpenWRT (initial attempt with WebView including interaction with AppFilter backend, <a href="http://memoria.ndn.ucla.edu/openwrt2.mp4">screen recording with changing SSID and seeing app-specific statistics</a>)_
 
 ### Master branch
  - **android-client**    : _The frontend application that configures OpenWRT (migration from WebView to more native Android UI widgets, doesn't have AppFilter frontend yet, <a href="http://memoria.ndn.ucla.edu/openwrt1.mp4">screen recording with login and browsing</a>)_
