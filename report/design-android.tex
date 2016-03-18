@@ -21,7 +21,7 @@ The goal of the graphical user interface design was to simplify the user interfa
 	
 Another LuCI WebView issue was that unsaved changes would be tracked in a session until committed. Tracking unsaved changes on a web browser can result in session complications, depending on browser settings for caching. Furthermore, the WebView relied on in-browser scripting to provide functional elements, which is a dependency that can be optimized. Therefore another aspect of our design was to make all actions atomic and contained to the screen they are accessed on, to avoid carrying changes. To make all actions atomic, all functional elements in the original WebView would be rebuilt natively in Android.
 	
-Based on the LuCI framework, the designed Android application's user interface screens consisted of a login screen, then three major categories: status, network, and system. Each category then presented a subnavigation menu that persisted until another major category was selected, allowing users to move more freely within same category.
+Based on the LuCI framework, the designed Android application's user interface screens consisted of a login screen, then three major categories: status (Figure \ref{OpenWRT:androidstatus}), network (Figure \ref{OpenWRT:androidnetwork}), and system (Figure \ref{OpenWRT:androidsystem}). Each category then presented a subnavigation menu that persisted until another major category was selected, allowing users to move more freely within same category.
 
 	\begin{figure}
 		\centering
