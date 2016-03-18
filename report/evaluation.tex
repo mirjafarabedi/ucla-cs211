@@ -1,9 +1,10 @@
 \section{Evaluation}
-To evaluate our implementation, we test the backend on both a virtualBox machine and a phsical OpenWRT router; we also test the Android applcation on both Android Studio built-in smartphone emulation and physical Android devices. Here are some details of the evaluation.
+
+To evaluate our implementation, we tested the application on Android 4.4 and 5.1 devices. We also tested the backend on both a OpenWRT VirtualBox and a TP-Link WDR 4300 router running OpenWRT 15.05; the former, being much more powerful than the latter, does not offer much value for evaluation, so the focus of this section is on the evaluation of running our backend on the physical device.
 
 \subsection{Per-application statistics backend evaluation}
 
-This section describes the disk, CPU and memory usage of the Python backend for application specific traffic analysis. 
+This section describes the disk, CPU and memory usage of the Python backend for per-application statistics. 
 
 The hard drive volume is usually quite limited for an OpenWRT box. The backend analyzer had dependencies on opkg packages \textit{tcpdump}, \textit{python-light} and \textit{python-codecs}; and the associated HTTP server had dependencies on \textit{python-logging} and \textit{python-ssl} (optional, the module would not give out warnings if installed). On our test TP-Link WDR4300 router flashed with OpenWRT 15.05, 500KB disk space still remained for the mount point ``/'', after all the necessary dependencies were installed. The mount point ``/tmp'' had over 60MB temporary space, and we stored our tcpdump and statistics output files under mount point ``/tmp''.
 
