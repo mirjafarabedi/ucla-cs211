@@ -1,1 +1,11 @@
 \section{Discussions}
+
+\subsection{How to add more functions?}
+To add more functions, there are two choices: (1) use LuCI package to extend LuCI web interface functionalities; (2) implement a new backend just like we do for the per-device per-application network traffic analysis function. The first choice is much more simpler than the second one, but it limits the functions we can add, because existing LuCI package do not provide all the tools we need. The second choice provides the possiblity to add whatever functions we need, but it requires developers to design and implement their own backends, and it's limited by the resources provided by OpenWRT machines (OpenWRT does not have so much free disk space).
+
+Which one is more proper depends on the specific requirement.
+\subsection{Does adding new backend work for physical OpenWRT machine?}
+It's true that adding new backend needs more resources. But the question is how much more resources a new backend needs. To implement the  per-device per-application network traffic analysis backend, we install the entire python library, and there are still free disk space on the physical machine, so our solution does work. An important point is that the backend does not need the entire python library; after we figure out what sub-libraries are necessary to run the new backend, we can only install the necessary sub-libraries, which saves disk space. What's more, using python to implement the new backend is just for proof of concept; to improve performance, light-weight and faster programming languages can be used, such as C programming language.
+
+\subsection{Do you have proper graphical UIs?}
+We have designed all the graphical. But during to time limitation, we cannot finish implemeting all of them. Designing better GUI and implementing them will be our future work.
