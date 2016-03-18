@@ -9,11 +9,11 @@ This sub-section describes the design of the system backend. For basic configura
 	\label{backend-architecture}
 \end{figure*}
 
-\subsubsection{LuCI Web Service/Interface}
+\subsubsection{LuCI web service/interface}
 
 LuCI backend provides useful tools to operate OpenWrt. For example, ``luci.sys'' package can be used to call system functions, ``'luci.http'' package can be used to deal with http protocols, ``luci.controller.rpc'' can be used to call remote processes, and ``luci.util.exec'' can be used to execute shell commands. LuCI provides an http interface to access its backend, which covers enough functionalities for our application's purposes, such as monitoring system load, and configuring WiFi interface.
 
-\subsubsection{Application specific traffic statistics}
+\subsubsection{Per-application statistics analysis}
 \label{sec:app-specific-design}
 
 One of the goals in this project was to identify and provide statistics for traffic belonging to specific user applications, such as quantifying incoming and outgoing traffic related to specific smartphone application and services, and determining the identities of the hosts generating the traffic going through the OpenWRT box. To achieve this goal, we considered the two following design approaches:
