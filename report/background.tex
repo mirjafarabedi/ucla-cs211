@@ -21,14 +21,3 @@
 		\caption{the software stack of OpenWRT}
 		\label{OpenWRT:stack}
 	\end{figure}
-	
-	\subsection{How to Develop With OpenWRT}
-	
-	It is easy to port software to OpenWRT. Various fetching methods such as GIT, Subversion, CVS, HTTP, local source can be used to download package source. In a typical package directory, there should always be a \verb|package/<name>/Makefile|. After running ``make menuconfig'', the new package will show up in the menu; and after running ``make'', the new package will be built.
-	
-	\subsection{Web-based Access to OpenWRT}
-	In the OpenWRT system, some important features are provided: a built-in web server with CGI support, an SSH server and a package management tool. We can make use of these existing tools to build our Android application.
-	
-	Apart from the basic tools, OpenWRT also supports LuCI \cite{LuCI}, which is a browser-based tool to remotely configure the OpenWRT system. Specifically, it provides status visualization functions, system administration functions and network configurations. We would provide similar functions in our Android application.
-	
-	Another useful reference is the Netgear \cite{netgear} mobile application, which designs nice UIs that we can borrow ideas from. We need also to design the web-based access application UIs based on their work.
