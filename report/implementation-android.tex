@@ -1,11 +1,12 @@
 \subsection{Android Application Implementation}
-\subsubsection{Network Communication Module}
-When implementing the network communication module, we use an existing http library: volley. Volley is an HTTP library that makes networking for Android apps easier and most importantly, faster.  By using the existing library, we only need to implement proper response listeners, the communication details will be handled directly by the library.
+\subsubsection{Network communication module}
+We use an existing library, Volley, for network communication module implementation. Volley features easier and faster http requests and responses on Android. Query parameters and corresponding response listeners are passed into the library, which handles the communication details.
 
-\subsubsection{Graphical User Interface}
+\subsubsection{Graphical user interface}
 The development of the user interface considered native Android solutions to the navigation. Typically, Android activities are single interface screens. Inside the Android activities, Android fragments can be used use to provide different tab screens. Therefore, tab navigation was implemented with Android activities for the categories, and Android fragments for the subcategories and forms.
 
 However, the implementation of the user interface reached complications. The major problem leading to complications was that in using the LuCI backend, content extraction using HTML retrieved whole WebView pages. JSON would extract smaller elements, but required specific queries, and would make code reuse difficult. Using both required parsing, and the extent of parsing needed for each category and subcategory complicated the implementation, taking more development time than available. The issue of parsing elements also complicated the implementation of buttons and other interactive objects, which needed to be re-made natively. Therefore, the graphical user interface was not completed in time.
 
-\subsubsection{Network Respond Parser}
-When implementing the network communication module, we use an existing Json library.
+\subsubsection{Network response parser}
+
+Android's JSON library is used for JSON response parsing. And Jsoup, a third-party html parser, is used for html response parsing. Jsoup provides interfaces that are similar with JavaScript's html DOM object manipulation, thus LuCI frontend's JavaScript UI code can be easily adapted to Java.
