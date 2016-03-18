@@ -20,7 +20,7 @@ One of the goals in this project was to identify and provide statistics for traf
 
 \textbf{(A).} Pre-install a service on each user device that would monitor application network usage information from the operating system and report the monitored statistics to a service on the OpenWRT box. This approach can likely generate very accurate results and provide each specific application's statistical network usage. However, the major drawback to this method of collecting accurate traffic information is that it requires that each user voluntarily install and run this service on their devices, a requirement non-ideal for our goal: this service should not require additional actions and permissions from user devices, and the OpenWRT box should be able to collect statistics with or without end user cooperation.
 	
-\textbf{(B).}  Capture the traffic on the OpenWRT box, and run per-packet analysis. While less accurate than the first option, it is less intrusive to the user. The following information components from packet headers or payloads could be used to capture traffic:
+\textbf{(B).}  Capture the traffic on the OpenWRT box, and run per-packet analysis. While less accurate than the first option, it is less intrusive to the user. The following information components from packet headers or payloads could be used to capture and analyze traffic:
 	
 	\begin{itemize}
 		
@@ -41,5 +41,20 @@ One of the goals in this project was to identify and provide statistics for traf
 		DNS host names often give information about the service provider, even when the service provider's using CDNs. By doing a DNS reverse lookup on the IP addresses, we can find out the service's domain name, thus infer what application's generating the traffic. The assumption behind this approach is that most servers or CDN boxes have a DNS name that corresponds to the application backend that they run. Our initial experiments suggest that this assumption is indeed true for popular applications like Youtube and Facebook, though mapping a DNS domain to a certain service may not be straightforward. For example, Facebook app on Android talks to both \textit{*.facebook.com} domain, and \textit{*.fbcdn.net} (owned by the CDN provider, Akamai Technologies) domain, and Youtube app talks to both \textit{*.google.com}, and \textit{*.1e100.net}, another Google owned domain. 
 		
 		Given this caveat, the authors chose the last approach since it is most applicable than other options listed above. For the proof-of-concept implementation, the mapping from domain names to service names is statically configured. It is also worth mentioning that this approach will limit our statistics to per service provider, rather than per exact application (for example, the traffic application is unable to differentiate Google Hangout application traffic from Youtube application traffic), but the authors believe this approach is enough for the purpose of providing statistics on the router end that provides a network adminstrator a reasonable amount of information to determine which applications on which devices are generating how much traffic.
-		
+	
 	\end{itemize} 
+	
+Table \ref{appfilterchoice} summarizes the above traffice analysis approaches.
+
+\begin{table*}[h]
+	\centering
+	\caption{Traffic Analysis Approaches}
+	\label{appfilterchoice}
+	\begin{tabular}{p{4cm}|p{2cm}|p{10cm}} \hline
+		Analysis Approaches & Work or not? & Reason \\ \hline
+		IP addresses & No & Popular apps (such as Youtube, Facebook) use different servers to distribute contents, we cannot know the mapping between IP addresses and applications \\ \hline
+		TCP ports & No & TCP ports are not assigned for specific apps\\ \hline
+		Application payload & No  & Popular apps (such as Youtube, Facebook) use TLS\\ \hline
+		DNS Domain name & Yes & Use nslookup to map IP addresses to domain names first. And then map domain names to applications \\
+		\hline\end{tabular}
+\end{table*}
