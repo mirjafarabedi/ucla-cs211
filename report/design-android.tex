@@ -1,4 +1,4 @@
-\subsection{Mobile Application}
+\subsection{Mobile application}
 This sub-section describes the design of the OpenWRT remote access mobile application. Since this is a proof of concept, we only designed and implemented the application on Android platform.
 
 \subsubsection{Architecture}
@@ -50,7 +50,7 @@ Each separate screen in the subcategories of the major categories was designed t
 		\label{OpenWRT:androidsystem}
 	\end{figure}
 
-\subsubsection{Network Respond Parser}
+\subsubsection{Network response parser}
 
-After the mobile application sends http requests to the OpenWRT backend, it will get responses. The responses are either an html script or a JSON object. We can parse the html script or JSON object to extract the needed information and fill it into the designed UI. However, such operations takes time on the phone. As a proof of concept, the initial implementation uses Android's WebView class to visualize html scripts.
+The mobile application gets responses for the requests it sent to the OpenWRT backend. The responses are either an html script or a JSON object. We can parse the html script or JSON object to extract the needed information and fill it into the designed UI. However, such operations takes time on the phone. As a proof of concept, the initial implementation uses Android's WebView class to visualize html scripts.
 
