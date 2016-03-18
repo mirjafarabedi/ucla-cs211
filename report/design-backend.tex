@@ -1,13 +1,13 @@
 \subsection{Backend}
 
-This sub-section describes the design of the system backend. For basic configuration functions, we decide to reuse (and extend) services from LuCI, a mature configuration web service running on OpenWRT, since LuCI backend provides most of the functions needed to monitor network status and configure networks. However, the per-device per-application network usage statistics is not gathered by LuCI. To provide extra functions such as this one, we decide to build an additional Python service on OpenWRT. Figure \ref{backend-architecture} shows the architecture of the backend.
-
 \begin{figure*}
 	\centering
 	\includegraphics[width=0.75\textwidth]{backend-architecture.png}
 	\caption{Backend Architecture}
 	\label{backend-architecture}
 \end{figure*}
+
+This sub-section describes the design of the system backend. For basic configuration functions, we decide to reuse (and extend) services from LuCI, a mature configuration web service running on OpenWRT, since LuCI backend provides most of the functions needed to monitor network status and configure networks. However, the per-device per-application network usage statistics is not gathered by LuCI. To provide extra functions such as this one, we decide to build an additional Python service on OpenWRT. Figure \ref{backend-architecture} shows the architecture of the backend.
 
 \subsubsection{LuCI web service/interface}
 
@@ -46,7 +46,7 @@ One of the goals in this project was to identify and provide statistics for traf
 	
 Table \ref{appfilterchoice} summarizes the above approaches.
 
-\begin{table*}[h]
+\begin{table*}
 	\centering
 	\caption{Traffic Analysis Approaches}
 	\label{appfilterchoice}
